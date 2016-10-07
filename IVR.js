@@ -57,9 +57,9 @@ var data = [
     }
 ];
 
-// var filteredData = data.filter(function(el){
-//     el.phone == callerId;
-// });
+var filteredData = data.filter(function(el){
+    el.phone == callerId;
+});
 
 // // if its a know caller id get his name, and conversation language
 // var knownCaller = null;
