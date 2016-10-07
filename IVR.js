@@ -57,15 +57,16 @@ var data = [
     }
 ];
 
-var filteredData = data.filter(function(el){
-    el.phone == callerId;
-});
+// var filteredData = data.filter(function(el){
+//     el.phone == callerId;
+// });
 
-// if its a know caller id get his name, and conversation language
-var knownCaller = null;
-if(filteredData && filteredData.length === 1){
-    knownCaller = filteredData[0];
-}
+// // if its a know caller id get his name, and conversation language
+// var knownCaller = null;
+// if(filteredData && filteredData.length === 1){
+//     knownCaller = filteredData[0];
+// }
+var knownCaller = data[0];
 
 // greet user
 
