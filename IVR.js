@@ -1,38 +1,38 @@
 // inject other libraries, i.e. require? cannot inject libs.
-function requestJSONviaGET(requestedURL) {
-    try {
-        var connection = new java.net.URL(requestedURL).openConnection();
-        connection.setDoOutput(false);
-        connection.setDoInput(true);
-        connection.setInstanceFollowRedirects(false);
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("charset", "utf-8");
-        connection.connect();
+// function requestJSONviaGET(requestedURL) {
+//     try {
+//         var connection = new java.net.URL(requestedURL).openConnection();
+//         connection.setDoOutput(false);
+//         connection.setDoInput(true);
+//         connection.setInstanceFollowRedirects(false);
+//         connection.setRequestMethod("GET");
+//         connection.setRequestProperty("Content-Type", "application/json");
+//         connection.setRequestProperty("charset", "utf-8");
+//         connection.connect();
 
-        var responseCode = connection.getResponseCode();
-        log("JSON_LIBRARY: read response code: " + responseCode);
-        if (responseCode < 200 || responseCode > 299) {
-            log("JSON_LIBRARY: request failed");
-            return undefined;
-        }
+//         var responseCode = connection.getResponseCode();
+//         log("JSON_LIBRARY: read response code: " + responseCode);
+//         if (responseCode < 200 || responseCode > 299) {
+//             log("JSON_LIBRARY: request failed");
+//             return undefined;
+//         }
 
-        // Read stream and create response from JSON
-        var bodyReader = connection.getInputStream();
-        // [WORKAROUND] We cannot use a byte[], not supported on Tropo
-        // var myContents= new byte[1024*1024];
-        // bodyReader.readFully(myContents);
-        var contents = new String(org.apache.commons.io.IOUtils.toString(bodyReader));
-        var parsed = JSON.parse(contents);
-        log("JSON_LIBRARY: JSON is " + parsed.toString());
+//         // Read stream and create response from JSON
+//         var bodyReader = connection.getInputStream();
+//         // [WORKAROUND] We cannot use a byte[], not supported on Tropo
+//         // var myContents= new byte[1024*1024];
+//         // bodyReader.readFully(myContents);
+//         var contents = new String(org.apache.commons.io.IOUtils.toString(bodyReader));
+//         var parsed = JSON.parse(contents);
+//         log("JSON_LIBRARY: JSON is " + parsed.toString());
 
-        return parsed;
-    }
-    catch (e) {
-        log("JSON_LIBRARY: could not retreive contents, socket Exception or Server Timeout");
-        return undefined;
-    }
-}
+//         return parsed;
+//     }
+//     catch (e) {
+//         log("JSON_LIBRARY: could not retreive contents, socket Exception or Server Timeout");
+//         return undefined;
+//     }
+// }
 
 
 
@@ -42,7 +42,21 @@ log("Call was from: " + currentCall.callerID);
 
 // query data storage to see if its a known caller id
 // TODO: Move to Azure Tables
-var data = requestJSONviaGET("https://raw.githubusercontent.com/brunoshine/tropoSample/master/sample_data.json");
+// var data = requestJSONviaGET("https://raw.githubusercontent.com/brunoshine/tropoSample/master/sample_data.json");
+var data = [
+    {
+        "name":"Bruno Figueiredo", 
+        "phone": "0351926368351",
+        "lang":"en-GB", 
+        "contacts": [{"name":"Bruno", "phone":"0351926368351"}]
+    },
+    {
+        "name":"John Doe", 
+        "lang":"pt-PT", 
+        "contacts": [{"name":"Bruno", "phone":"0351926368351"}]
+    }
+];
+
 var filteredData = data.filter(function(el){
     el.phone == callerId;
 });
@@ -80,7 +94,7 @@ log("created options list");
 log(actionPickMessage);
 log(actionPickOptions);
 
-log("asking...")
+log("asking...");
 var result=ask(actionPickMessage, {
    choices:actionPickOptions
 });
