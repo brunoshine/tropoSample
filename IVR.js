@@ -71,7 +71,7 @@ var knownCaller = data[0];
 // greet user
 
 // translate to caller native language
-var welcomeMessage = "Hi Mr. " + knownCaller.name + ". Welcome to Evil Corp.";
+var welcomeMessage = "Hello Mr. " + knownCaller.name + ". Welcome to the Matrix.";
 say(welcomeMessage);
 log("Said welcome message to " + currentCall.callerID);
 
@@ -88,7 +88,7 @@ if(knownCaller.contacts !== null){
     }
 }
 
-actionPickMessage = actionPickMessage + " To speak to the Operator please choose 0.";
+actionPickMessage = actionPickMessage + " To speak to the operator please choose 0.";
 actionPickOptions = actionPickOptions + "0";
 
 log("created options list");
