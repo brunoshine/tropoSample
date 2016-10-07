@@ -1,6 +1,37 @@
 // inject other libraries, i.e. require? cannot inject libs.
-var httpGet = function(url){
-    
+function requestJSONviaGET(requestedURL) {
+    try {
+        var connection = new java.net.URL(requestedURL).openConnection();
+        connection.setDoOutput(false);
+        connection.setDoInput(true);
+        connection.setInstanceFollowRedirects(false);
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("charset", "utf-8");
+        connection.connect();
+
+        var responseCode = connection.getResponseCode();
+        log("JSON_LIBRARY: read response code: " + responseCode);
+        if (responseCode < 200 || responseCode > 299) {
+            log("JSON_LIBRARY: request failed");
+            return undefined;
+        }
+
+        // Read stream and create response from JSON
+        var bodyReader = connection.getInputStream();
+        // [WORKAROUND] We cannot use a byte[], not supported on Tropo
+        // var myContents= new byte[1024*1024];
+        // bodyReader.readFully(myContents);
+        var contents = new String(org.apache.commons.io.IOUtils.toString(bodyReader));
+        var parsed = JSON.parse(contents);
+        log("JSON_LIBRARY: JSON is " + parsed.toString());
+
+        return parsed;
+    }
+    catch (e) {
+        log("JSON_LIBRARY: could not retreive contents, socket Exception or Server Timeout");
+        return undefined;
+    }
 }
 
 
@@ -10,9 +41,17 @@ var callerId = currentCall.callerID;
 log("Call was from: " + currentCall.callerID);
 
 // query data storage to see if its a known caller id
+var data = requestJSONviaGET("");
+
+var filteredData = data.filter(function(el){
+    el.phone == callerId;
+});
 
 // if its a know caller id get his name, and conversation language
-var knownCaller = {name:'John Doe', lang:'en-GB', contacts: [{name:"Bruno", phone:"0351926368351"}]};
+var knownCaller = null;
+if(filteredData && filteredData.length === 1){
+    knownCaller = filteredData[0];
+}
 
 // greet user
 
