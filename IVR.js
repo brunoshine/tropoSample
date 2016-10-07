@@ -1,4 +1,9 @@
-// inject other libraries, i.e. require 
+// inject other libraries, i.e. require? cannot inject libs.
+var httpGet = function(url){
+    
+}
+
+
 
 // get caller id
 var callerId = currentCall.callerID;
@@ -19,13 +24,14 @@ log("Said welcome message to " + currentCall.callerID);
 // ask to talk to account manager or operator
 var actionPickMessage = "With whom would you like to speak?";
 var actionPickOptions = "";
-// if(knownCaller.contacts !== null){
-//     for(var i=0; i < knownCaller.contacts.length; i++){
-//         var contact = knownCaller.contacts[i];
-//         actionPickMessage += "Press " + (i+1) + " for " + contact.name + ".";
-//         actionPickOptions += i+","; 
-//     }
-// }
+if(knownCaller.contacts !== null){
+    for(var i=0; i < knownCaller.contacts.length; i++){
+        var contact = knownCaller.contacts[i];
+        // +=  IS NOT SUPPORTED
+        actionPickMessage = actionPickMessage + "Press " + (i+1) + " for " + contact.name + ".";
+        actionPickOptions = actionPickOptions + i +","; 
+    }
+}
 
 actionPickMessage = actionPickMessage + " To speak to the operation please choose 0.";
 actionPickOptions = actionPickOptions + "0";
@@ -43,8 +49,7 @@ log("picked operation:" + result.value);
 var operatorId = parseInt(result.value);
 var selectedOperator = "+351999000888"; // by default go to Operator.    
 
-if(operatorId !== 0)
-{
+if(operatorId !== 0){
     selectedOperator = knownCaller.contacts[operatorId-1].phone;
     say("You picked to speak to " + knownCaller.contacts[operatorId-1].name + ".");
     log("said transfing to picked contact");
@@ -52,7 +57,6 @@ if(operatorId !== 0)
     say("You picked to speak to the Operator.");
     log("said transferring to operator");
 }
-
 
 // redirect call to selected contact (AM or Operator)
 
