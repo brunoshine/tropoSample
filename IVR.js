@@ -106,7 +106,8 @@ function requestForAction(knownCaller){
 function redirectCall(knownCaller, operatorId){
     var selectedOperator = "+351999000888"; // by default go to Operator.    
 
-    if(operatorId !== 0){
+    if(operatorId !== 0 && knownCaller !== null){
+        log()
         selectedOperator = knownCaller.contacts[operatorId-1].phone;
         say("You picked to speak to " + knownCaller.contacts[operatorId-1].name + ".");
         log("said transfing to picked contact");
