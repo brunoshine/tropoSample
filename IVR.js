@@ -41,8 +41,8 @@ var callerId = currentCall.callerID;
 log("Call was from: " + currentCall.callerID);
 
 // query data storage to see if its a known caller id
-var data = requestJSONviaGET("");
-
+// TODO: Move to Azure Tables
+var data = requestJSONviaGET("https://raw.githubusercontent.com/brunoshine/tropoSample/master/sample_data.json");
 var filteredData = data.filter(function(el){
     el.phone == callerId;
 });
@@ -66,9 +66,10 @@ var actionPickOptions = "";
 if(knownCaller.contacts !== null){
     for(var i=0; i < knownCaller.contacts.length; i++){
         var contact = knownCaller.contacts[i];
+        var opt = i + 1;
         // +=  IS NOT SUPPORTED
-        actionPickMessage = actionPickMessage + "Press " + (i+1) + " for " + contact.name + ".";
-        actionPickOptions = actionPickOptions + i +","; 
+        actionPickMessage = actionPickMessage + "Press " + opt + " for " + contact.name + ".";
+        actionPickOptions = actionPickOptions + opt + ","; 
     }
 }
 
