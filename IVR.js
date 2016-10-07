@@ -42,20 +42,20 @@ log("Call was from: " + currentCall.callerID);
 
 // query data storage to see if its a known caller id
 // TODO: Move to Azure Tables
-// var data = requestJSONviaGET("https://raw.githubusercontent.com/brunoshine/tropoSample/master/sample_data.json");
-var data = [
-    {
-        "name":"Bruno Figueiredo", 
-        "phone": "0351926368351",
-        "lang":"en-GB", 
-        "contacts": [{"name":"Bruno", "phone":"0351926368351"}]
-    },
-    {
-        "name":"John Doe", 
-        "lang":"pt-PT", 
-        "contacts": [{"name":"Bruno", "phone":"0351926368351"}]
-    }
-];
+var data = requestJSONviaGET("https://raw.githubusercontent.com/brunoshine/tropoSample/master/sample_data.json");
+// var data = [
+//     {
+//         "name":"Bruno Figueiredo", 
+//         "phone": "0351926368351",
+//         "lang":"en-GB", 
+//         "contacts": [{"name":"Bruno", "phone":"0351926368351"}]
+//     },
+//     {
+//         "name":"John Doe", 
+//         "lang":"pt-PT", 
+//         "contacts": [{"name":"Bruno", "phone":"0351926368351"}]
+//     }
+// ];
 
 var filteredData = data.filter(function(el){
     el.phone == callerId;
@@ -88,7 +88,7 @@ if(knownCaller.contacts !== null){
     }
 }
 
-actionPickMessage = actionPickMessage + " To speak to the operation please choose 0.";
+actionPickMessage = actionPickMessage + " To speak to the Operator please choose 0.";
 actionPickOptions = actionPickOptions + "0";
 
 log("created options list");
