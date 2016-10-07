@@ -7,6 +7,7 @@
     },
     {
         "name":"John Doe", 
+        "phone":"0351999888777",
         "lang":"pt-PT", 
         "contacts": [{"name":"Bruno", "phone":"0351926368351"}]
     }
