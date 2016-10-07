@@ -42,12 +42,13 @@ function requestJSONviaGET(requestedURL) {
 function getCallerDetails(callerId){
     var data = requestJSONviaGET("https://raw.githubusercontent.com/brunoshine/tropoSample/master/sample_data.json");
     var filteredData = data.filter(function(el){
-        el.phone == callerId;
+        return el.phone == callerId;
     });
 
     // // if its a know caller id get his name, and conversation language
     var callerDetails = null;
     if(filteredData && filteredData.length === 1){
+        log("found known user for " + callerId);
         callerDetails = filteredData[0];
     }
     return callerDetails;
